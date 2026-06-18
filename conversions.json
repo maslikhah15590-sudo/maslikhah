@@ -179,5 +179,42 @@
       "base_unit": false,
       "to_liter": 3.78541
     }
+  },
+  "satuan_waktu": {
+    "detik": {
+      "name": "Detik",
+      "base_unit": true,
+      "to_detik": 1
+    },
+    "menit": {
+      "name": "Menit",
+      "base_unit": false,
+      "to_detik": 60
+    },
+    "jam": {
+      "name": "Jam",
+      "base_unit": false,
+      "to_detik": 3600
+    },
+    "hari": {
+      "name": "Hari",
+      "base_unit": false,
+      "to_detik": 86400
+    },
+    "minggu": {
+      "name": "Minggu",
+      "base_unit": false,
+      "to_detik": 604800
+    },
+    "bulan": {
+      "name": "Bulan",
+      "base_unit": false,
+      "to_detik": 2592000
+    },
+    "tahun": {
+      "name": "Tahun",
+      "base_unit": false,
+      "to_detik": 31536000
+    }
   }
 }
