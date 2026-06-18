@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konversi Satuan Pengukuran</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 20px 100px 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(30, 58, 138, 0.3);
+            max-width: 900px;
+            width: 100%;
+            border-top: 5px solid #3B82F6;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            color: #1E3A8A;
+            font-size: 36px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(30, 58, 138, 0.1);
+            font-weight: 700;
+        }
+
+        .header .subtitle {
+            color: #64748B;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .converter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .converter-card {
+            background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%);
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid #3B82F6;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .converter-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
+            border-color: #1E40AF;
+        }
+
+        .converter-card h2 {
+            color: #1E3A8A;
+            font-size: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .converter-card h2 .emoji {
+            font-size: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #334155;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #93C5FD;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Segoe UI', sans-serif;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #3B82F6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .input-group {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 8px;
+            align-items: end;
+        }
+
+        .input-group input {
+            width: 100%;
+        }
+
+        .input-group button {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .input-group button:hover {
+            background: linear-gradient(135deg, #1E40AF 0%, #1E3A8A 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+        }
+
+        .input-group button:active {
+            transform: translateY(0);
+        }
+
+        .swap-btn {
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .swap-btn:hover {
+            background: linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%);
+            transform: rotate(180deg);
+        }
+
+        .result-box {
+            background: linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3B82F6;
+            margin-top: 15px;
+        }
+
+        .result-box .label {
+            color: #1E40AF;
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .result-box .value {
+            color: #1E3A8A;
+            font-size: 22px;
+            font-weight: 700;
+            word-break: break-all;
+        }
+
+        .unit-group {
+            margin-bottom: 15px;
+        }
+
+        .unit-group label {
+            display: block;
+            color: #334155;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .unit-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+            gap: 8px;
+        }
+
+        .unit-btn {
+            padding: 10px;
+            border: 2px solid #93C5FD;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+            color: #1E3A8A;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .unit-btn:hover {
+            border-color: #3B82F6;
+            background: #F0F9FF;
+        }
+
+        .unit-btn.active {
+            background: linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%);
+            color: white;
+            border-color: #1E40AF;
+        }
+
+        .clear-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #E0E7FF 0%, #C7D2FE 100%);
+            color: #1E3A8A;
+            border: 2px solid #93C5FD;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .clear-btn:hover {
+            background: linear-gradient(135deg, #C7D2FE 0%, #A5B4FC 100%);
+            border-color: #3B82F6;
+        }
+
+        .conversion-table {
+            width: 100%;
+            margin-top: 15px;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .conversion-table th,
+        .conversion-table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #93C5FD;
+        }
+
+        .conversion-table th {
+            background: linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%);
+            color: #1E3A8A;
+            font-weight: 600;
+        }
+
+        .conversion-table tr:hover {
+            background: #F0F9FF;
+        }
+
+        .quick-reference {
+            background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3B82F6;
+            font-size: 12px;
+            color: #334155;
+            line-height: 1.6;
+            margin-top: 15px;
+        }
+
+        .quick-reference .title {
+            color: #1E3A8A;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .quick-reference .item {
+            color: #475569;
+            margin-bottom: 4px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 120px;
+            right: 20px;
+            background: linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: 600;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(90deg, #1E3A8A 0%, #3B82F6 100%);
+            color: white;
+            text-align: center;
+            padding: 12px 20px;
+            font-size: 12px;
+            box-shadow: 0 -2px 10px rgba(30, 58, 138, 0.2);
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: 600;
+            border-top: 3px solid #60A5FA;
+        }
+
+        .footer a {
+            color: #93C5FD;
+            text-decoration: none;
+            font-weight: 700;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer a:hover {
+            opacity: 0.8;
+            color: white;
+        }
+
+        .tab-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .tab-btn {
+            padding: 12px;
+            border: 2px solid #93C5FD;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 13px;
+            color: #1E3A8A;
+        }
+
+        .tab-btn:hover {
+            border-color: #3B82F6;
+            background: #F0F9FF;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%);
+            color: white;
+            border-color: #1E40AF;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .converter-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .tab-selector {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            body {
+                padding: 20px 20px 120px 20px;
+            }
+
+            .footer {
+                font-size: 11px;
+                padding: 10px 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 20px;
+            }
+
+            .tab-selector {
+                grid-template-columns: 1fr;
+            }
+
+            .unit-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚙️ Konversi Satuan Pengukuran</h1>
+            <div class="subtitle">Aplikasi Konversi Satuan Lengkap & Akurat</div>
+        </div>
+
+        <!-- Tab Selector -->
+        <div class="tab-selector">
+            <button class="tab-btn active" onclick="switchTab('panjang')">📏 Panjang</button>
+            <button class="tab-btn" onclick="switchTab('berat')">⚖️ Berat</button>
+            <button class="tab-btn" onclick="switchTab('luas')">📐 Luas</button>
+            <button class="tab-btn" onclick="switchTab('volume')">📦 Volume</button>
+            <button class="tab-btn" onclick="switchTab('waktu')">⏱️ Waktu</button>
+        </div>
+
+        <!-- Tab: Panjang -->
+        <div id="panjang" class="tab-content active">
+            <div class="converter-grid">
+                <div class="converter-card">
+                    <h2><span class="emoji">📏</span> Konversi Panjang</h2>
+                    
+                    <div class="form-group">
+                        <label>Nilai Input</label>
+                        <input type="number" id="panjangValue" placeholder="Masukkan nilai" step="any">
+                    </div>
+
+                    <div class="unit-group">
+                        <label>Dari Satuan</label>
+                        <div class="unit-buttons" id="panjangFrom">
+                            <button class="unit-btn active" onclick="setPanjangFrom('mm')">mm</button>
+                            <button class="unit-btn" onclick="setPanjangFrom('cm')">cm</button>
+                            <button class="unit-btn" onclick="setPanjangFrom('m')">m</button>
+                            <button class="unit-btn" onclick="setPanjangFrom('km')">km</button>
+                        </div>
+                    </div>
+
+                    <div class="unit-group">
+                        <label>Ke Satuan</label>
+                        <div class="unit-buttons" id="panjangTo">
+                            <button class="unit-btn" onclick="setPanjangTo('mm')">mm</button>
+                            <button class="unit-btn active" onclick="setPanjangTo('cm')">cm</button>
+                            <button class="unit-btn" onclick="setPanjangTo('m')">m</button>
+                            <button class="unit-btn" onclick="setPanjangTo('km')">km</button>
+                        </div>
+                    </div>
+
+                    <button class="input-group button" onclick="konversiPanjang()">Konversi</button>
+                    <button class="clear-btn" onclick="clearPanjang()">Hapus</button>
+
+                    <div id="panjangResult"></div>
+
+                    <div class="quick-reference">
+                        <div class="title">📚 Referensi Cepat:</div>
+                        <div class="item">1 km = 1000 m = 100,000 cm</div>
+                        <div class="item">1 m = 100 cm = 1000 mm</div>
+                        <div class="item">1 hm = 100 m</div>
+                        <div class="item">1 dam = 10 m</div>
+                        <div class="item">1 dm = 0.1 m</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Berat/Massa -->
+        <div id="berat" class="tab-content">
+            <div class="converter-grid">
+                <div class="converter-card">
+                    <h2><span class="emoji">⚖️</span> Konversi Berat/Massa</h2>
+                    
+                    <div class="form-group">
+                        <label>Nilai Input</label>
+                        <input type="number" id="beratValue" placeholder="Masukkan nilai" step="any">
+                    </div>
+
+                    <div class="unit-group">
+                        <label>Dari Satuan</label>
+                        <div class="unit-buttons" id="beratFrom">
+                            <button class="unit-btn active" onclick="setBeratFrom('mg')">mg</button>
+                            <button class="unit-btn" onclick="setBeratFrom('g')">g</button>
+                            <button class="unit-btn" onclick="setBeratFrom('kg')">kg</button>
+                            <button class="unit-btn" onclick="setBeratFrom('ton')">ton</button>
+                        </div>
+                    </div>
+
+                    <div class="unit-group">
+                        <label>Ke Satuan</label>
+                        <div class="unit-buttons" id="beratTo">
+                            <button class="unit-btn" onclick="setBeratTo('mg')">mg</button>
+                            <button class="unit-btn active" onclick="setBeratTo('g')">g</button>
+                            <button class="unit-btn" onclick="setBeratTo('kg')">kg</button>
+                            <button class="unit-btn" onclick="setBeratTo('ton')">ton</button>
+                        </div>
+                    </div>
+
+                    <button class="input-group button" onclick="konversiBerat()">Konversi</button>
+                    <button class="clear-btn" onclick="clearBerat()">Hapus</button>
+
+                    <div id="beratResult"></div>
+
+                    <div class="quick-reference">
+                        <div class="title">📚 Referensi Cepat:</div>
+                        <div class="item">1 ton = 1000 kg = 1,000,000 g</div>
+                        <div class="item">1 kg = 1000 g = 1,000,000 mg</div>
+                        <div class="item">1 kwintal = 100 kg</div>
+                        <div class="item">1 ons = 100 g</div>
+                        <div class="item">1 pon = 500 g</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Luas -->
+        <div id="luas" class="tab-content">
+            <div class="converter-grid">
+                <div class="converter-card">
+                    <h2><span class="emoji">📐</span> Konversi Luas</h2>
+                    
+                    <div class="form-group">
+                        <label>Nilai Input</label>
+                        <input type="number" id="luasValue" placeholder="Masukkan nilai" step="any">
+                    </div>
+
+                    <div class="unit-group">
+                        <label>Dari Satuan</label>
+                        <div class="unit-buttons" id="luasFrom">
+                            <button class="unit-btn active" onclick="setLuasFrom('mm3')">mm²</button>
+                            <button class="unit-btn" onclick="setLuasFrom('cm2')">cm²</button>
+                            <button class="unit-btn" onclick="setLuasFrom('m2')">m²</button>
+                            <button class="unit-btn" onclick="setLuasFrom('km2')">km²</button>
+                        </div>
+                    </div>
+
+                    <div class="unit-group">
+                        <label>Ke Satuan</label>
+                        <div class="unit-buttons" id="luasTo">
+                            <button class="unit-btn" onclick="setLuasTo('mm2')">mm²</button>
+                            <button class="unit-btn" onclick="setLuasTo('cm2')">cm²</button>
+                            <button class="unit-btn active" onclick="setLuasTo('m2')">m²</button>
+                            <button class="unit-btn" onclick="setLuasTo('km2')">km²</button>
+                        </div>
+                    </div>
+
+                    <button class="input-group button" onclick="konversiLuas()">Konversi</button>
+                    <button class="clear-btn" onclick="clearLuas()">Hapus</button>
+
+                    <div id="luasResult"></div>
+
+                    <div class="quick-reference">
+                        <div class="title">📚 Referensi Cepat:</div>
+                        <div class="item">1 km² = 100 ha = 1,000,000 m²</div>
+                        <div class="item">1 m² = 10,000 cm² = 1,000,000 mm²</div>
+                        <div class="item">1 ha = 10,000 m²</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Volume -->
+        <div id="volume" class="tab-content">
+            <div class="converter-grid">
+                <div class="converter-card">
+                    <h2><span class="emoji">📦</span> Konversi Volume/Kubik</h2>
+                    
+                    <div class="form-group">
+                        <label>Nilai Input</label>
+                        <input type="number" id="volumeValue" placeholder="Masukkan nilai" step="any">
+                    </div>
+
+                    <div class="unit-group">
+                        <label>Dari Satuan</label>
+                        <div class="unit-buttons" id="volumeFrom">
+                            <button class="unit-btn active" onclick="setVolumeFrom('mm3')">mm³</button>
+                            <button class="unit-btn" onclick="setVolumeFrom('cm3')">cm³</button>
+                            <button class="unit-btn" onclick="setVolumeFrom('m3')">m³</button>
+                            <button class="unit-btn" onclick="setVolumeFrom('l')">L</button>
+                        </div>
+                    </div>
+
+                    <div class="unit-group">
+                        <label>Ke Satuan</label>
+                        <div class="unit-buttons" id="volumeTo">
+                            <button class="unit-btn" onclick="setVolumeTo('mm3')">mm³</button>
+                            <button class="unit-btn" onclick="setVolumeTo('cm3')">cm³</button>
+                            <button class="unit-btn active" onclick="setVolumeTo('m3')">m³</button>
+                            <button class="unit-btn" onclick="setVolumeTo('l')">L</button>
+                        </div>
+                    </div>
+
+                    <button class="input-group button" onclick="konversiVolume()">Konversi</button>
+                    <button class="clear-btn" onclick="clearVolume()">Hapus</button>
+
+                    <div id="volumeResult"></div>
+
+                    <div class="quick-reference">
+                        <div class="title">📚 Referensi Cepat:</div>
+                        <div class="item">1 m³ = 1000 L = 1,000,000 cm³</div>
+                        <div class="item">1 L = 1000 ml = 1000 cm³</div>
+                        <div class="item">1 cm³ = 1 ml = 1 cc</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Waktu -->
+        <div id="waktu" class="tab-content">
+            <div class="converter-grid">
+                <div class="converter-card">
+                    <h2><span class="emoji">⏱️</span> Konversi Waktu/Masa</h2>
+                    
+                    <div class="form-group">
+                        <label>Nilai Input</label>
+                        <input type="number" id="waktuValue" placeholder="Masukkan nilai" step="any">
+                    </div>
+
+                    <div class="unit-group">
+                        <label>Dari Satuan</label>
+                        <div class="unit-buttons" id="waktuFrom">
+                            <button class="unit-btn active" onclick="setWaktuFrom('detik')">detik</button>
+                            <button class="unit-btn" onclick="setWaktuFrom('menit')">menit</button>
+                            <button class="unit-btn" onclick="setWaktuFrom('jam')">jam</button>
+                            <button class="unit-btn" onclick="setWaktuFrom('hari')">hari</button>
+                        </div>
+                    </div>
+
+                    <div class="unit-group">
+                        <label>Ke Satuan</label>
+                        <div class="unit-buttons" id="waktuTo">
+                            <button class="unit-btn" onclick="setWaktuTo('detik')">detik</button>
+                            <button class="unit-btn active" onclick="setWaktuTo('menit')">menit</button>
+                            <button class="unit-btn" onclick="setWaktuTo('jam')">jam</button>
+                            <button class="unit-btn" onclick="setWaktuTo('hari')">hari</button>
+                        </div>
+                    </div>
+
+                    <button class="input-group button" onclick="konversiWaktu()">Konversi</button>
+                    <button class="clear-btn" onclick="clearWaktu()">Hapus</button>
+
+                    <div id="waktuResult"></div>
+
+                    <div class="quick-reference">
+                        <div class="title">📚 Referensi Cepat:</div>
+                        <div class="item">1 menit = 60 detik</div>
+                        <div class="item">1 jam = 60 menit = 3600 detik</div>
+                        <div class="item">1 hari = 24 jam</div>
+                        <div class="item">1 minggu = 7 hari</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <div class="footer">
+        💡 Aplikasi Edukatif | Dibuat dengan ❤️ oleh <a href="#" title="Agusniam">Agusniam</a> | © 2026
+    </div>
+
+    <script>
+        // ========== LOAD DATA DARI JSON ==========
+        let conversionsData = {};
+        let panjangFactors = {};
+        let beratFactors = {};
+        let luasFactors = {};
+        let volumeFactors = {};
+
+        // Load conversion data from GitHub
+        fetch('https://raw.githubusercontent.com/maslikhah15590-sudo/maslikhah/main/conversions.json')
+            .then(response => response.json())
+            .then(data => {
+                conversionsData = data;
+                
+                // Build factors dari JSON
+                Object.keys(data.satuan_panjang).forEach(unit => {
+                    panjangFactors[unit] = data.satuan_panjang[unit].to_meter;
+                });
+                
+                Object.keys(data.satuan_berat).forEach(unit => {
+                    beratFactors[unit] = data.satuan_berat[unit].to_gram;
+                });
+                
+                Object.keys(data.satuan_volume).forEach(unit => {
+                    volumeFactors[unit] = data.satuan_volume[unit].to_liter;
+                });
+                
+                // Generate buttons dari JSON
+                generateUnitButtons('panjangFrom', data.satuan_panjang, setPanjangFrom);
+                generateUnitButtons('panjangTo', data.satuan_panjang, setPanjangTo);
+                generateUnitButtons('beratFrom', data.satuan_berat, setBeratFrom);
+                generateUnitButtons('beratTo', data.satuan_berat, setBeratTo);
+                generateUnitButtons('volumeFrom', data.satuan_volume, setVolumeFrom);
+                generateUnitButtons('volumeTo', data.satuan_volume, setVolumeTo);
+                
+                console.log('✅ Data konversi berhasil dimuat dari JSON:', data);
+            })
+            .catch(error => {
+                console.error('❌ Error loading conversions:', error);
+                showToast('⚠️ Gagal memuat data konversi dari server');
+            });
+
+        // ========== FALLBACK FACTORS (jika JSON gagal load) ==========
+        const luasFactors_fallback = {
+            'mm2': 1,
+            'cm2': 100,
+            'm2': 1000000,
+            'km2': 1000000000000,
+            'ha': 10000000000,
+        };
+
+        const waktuFactors = {
+            'detik': 1,
+            'menit': 60,
+            'jam': 3600,
+            'hari': 86400,
+            'minggu': 604800,
+            'bulan': 2592000,
+            'tahun': 31536000
+        };
+
+        // ========== STATE VARIABLES ==========
+        let panjangState = { from: 'mm', to: 'cm' };
+        let beratState = { from: 'mg', to: 'g' };
+        let luasState = { from: 'mm2', to: 'm2' };
+        let volumeState = { from: 'mm3', to: 'm3' };
+        let waktuState = { from: 'detik', to: 'menit' };
+
+        // ========== GENERATE UNIT BUTTONS FROM JSON ==========
+        function generateUnitButtons(containerId, units, callback) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            container.innerHTML = '';
+            const unitKeys = Object.keys(units);
+            
+            unitKeys.forEach((unit, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'unit-btn' + (index === 0 ? ' active' : '');
+                btn.textContent = unit;
+                btn.onclick = () => callback(unit);
+                container.appendChild(btn);
+            });
+        }
+
+        // ========== TAB SWITCHING ==========
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // ========== PANJANG FUNCTIONS ==========
+        function setPanjangFrom(unit) {
+            panjangState.from = unit;
+            updateActiveButton(event.target);
+        }
+
+        function setPanjangTo(unit) {
+            panjangState.to = unit;
+            updateActiveButton(event.target);
+        }
+
+        function konversiPanjang() {
+            const value = parseFloat(document.getElementById('panjangValue').value);
+            if (isNaN(value)) {
+                showToast('⚠️ Masukkan nilai yang valid!');
+                return;
+            }
+
+            if (!panjangFactors[panjangState.from] || !panjangFactors[panjangState.to]) {
+                showToast('⚠️ Data konversi belum tersedia');
+                return;
+            }
+
+            const inMeter = value * panjangFactors[panjangState.from];
+            const result = inMeter / panjangFactors[panjangState.to];
+            
+            displayResult('panjangResult', result, panjangState.to);
+        }
+
+        function clearPanjang() {
+            document.getElementById('panjangValue').value = '';
+            document.getElementById('panjangResult').innerHTML = '';
+        }
+
+        // ========== BERAT FUNCTIONS ==========
+        function setBeratFrom(unit) {
+            beratState.from = unit;
+            updateActiveButton(event.target);
+        }
+
+        function setBeratTo(unit) {
+            beratState.to = unit;
+            updateActiveButton(event.target);
+        }
+
+        function konversiBerat() {
+            const value = parseFloat(document.getElementById('beratValue').value);
+            if (isNaN(value)) {
+                showToast('⚠️ Masukkan nilai yang valid!');
+                return;
+            }
+
+            if (!beratFactors[beratState.from] || !beratFactors[beratState.to]) {
+                showToast('⚠️ Data konversi belum tersedia');
+                return;
+            }
+
+            const inGram = value * beratFactors[beratState.from];
+            const result = inGram / beratFactors[beratState.to];
+            
+            displayResult('beratResult', result, beratState.to);
+        }
+
+        function clearBerat() {
+            document.getElementById('beratValue').value = '';
+            document.getElementById('beratResult').innerHTML = '';
+        }
+
+        // ========== LUAS FUNCTIONS ==========
+        function setLuasFrom(unit) {
+            luasState.from = unit;
+            updateActiveButton(event.target);
+        }
+
+        function setLuasTo(unit) {
+            luasState.to = unit;
+            updateActiveButton(event.target);
+        }
+
+        function konversiLuas() {
+            const value = parseFloat(document.getElementById('luasValue').value);
+            if (isNaN(value)) {
+                showToast('⚠️ Masukkan nilai yang valid!');
+                return;
+            }
+
+            const factors = luasFactors_fallback;
+            if (!factors[luasState.from] || !factors[luasState.to]) {
+                showToast('⚠️ Satuan tidak didukung');
+                return;
+            }
+
+            const inBase = value * factors[luasState.from];
+            const result = inBase / factors[luasState.to];
+            
+            displayResult('luasResult', result, luasState.to);
+        }
+
+        function clearLuas() {
+            document.getElementById('luasValue').value = '';
+            document.getElementById('luasResult').innerHTML = '';
+        }
+
+        // ========== VOLUME FUNCTIONS ==========
+        function setVolumeFrom(unit) {
+            volumeState.from = unit;
+            updateActiveButton(event.target);
+        }
+
+        function setVolumeTo(unit) {
+            volumeState.to = unit;
+            updateActiveButton(event.target);
+        }
+
+        function konversiVolume() {
+            const value = parseFloat(document.getElementById('volumeValue').value);
+            if (isNaN(value)) {
+                showToast('⚠️ Masukkan nilai yang valid!');
+                return;
+            }
+
+            if (!volumeFactors[volumeState.from] || !volumeFactors[volumeState.to]) {
+                showToast('⚠️ Data konversi belum tersedia');
+                return;
+            }
+
+            const inLiter = value * volumeFactors[volumeState.from];
+            const result = inLiter / volumeFactors[volumeState.to];
+            
+            displayResult('volumeResult', result, volumeState.to);
+        }
+
+        function clearVolume() {
+            document.getElementById('volumeValue').value = '';
+            document.getElementById('volumeResult').innerHTML = '';
+        }
+
+        // ========== WAKTU FUNCTIONS ==========
+        function setWaktuFrom(unit) {
+            waktuState.from = unit;
+            updateActiveButton(event.target);
+        }
+
+        function setWaktuTo(unit) {
+            waktuState.to = unit;
+            updateActiveButton(event.target);
+        }
+
+        function konversiWaktu() {
+            const value = parseFloat(document.getElementById('waktuValue').value);
+            if (isNaN(value)) {
+                showToast('⚠️ Masukkan nilai yang valid!');
+                return;
+            }
+
+            const inDetik = value * waktuFactors[waktuState.from];
+            const result = inDetik / waktuFactors[waktuState.to];
+            
+            displayResult('waktuResult', result, waktuState.to);
+        }
+
+        function clearWaktu() {
+            document.getElementById('waktuValue').value = '';
+            document.getElementById('waktuResult').innerHTML = '';
+        }
+
+        // ========== HELPER FUNCTIONS ==========
+        function updateActiveButton(button) {
+            const group = button.parentElement;
+            group.querySelectorAll('.unit-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            button.classList.add('active');
+        }
+
+        function displayResult(elementId, value, unit) {
+            const resultBox = document.getElementById(elementId);
+            const displayValue = value.toFixed(value < 1 && value !== 0 ? 6 : 2);
+            
+            resultBox.innerHTML = `
+                <div class="result-box">
+                    <div class="label">✅ Hasil Konversi</div>
+                    <div class="value">${displayValue} ${unit}</div>
+                </div>
+            `;
+            
+            showToast('✅ Konversi berhasil!');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // ========== KEYBOARD SUPPORT ==========
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const activeTab = document.querySelector('.tab-content.active');
+                const activeTabId = activeTab.id;
+                
+                if (activeTabId === 'panjang') konversiPanjang();
+                else if (activeTabId === 'berat') konversiBerat();
+                else if (activeTabId === 'luas') konversiLuas();
+                else if (activeTabId === 'volume') konversiVolume();
+                else if (activeTabId === 'waktu') konversiWaktu();
+            }
+        });
+    </script>
+</body>
+</html>
