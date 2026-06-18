@@ -1,0 +1,183 @@
+{
+  "satuan_panjang": {
+    "mm": {
+      "name": "Milimeter",
+      "base_unit": false,
+      "to_meter": 0.001
+    },
+    "cm": {
+      "name": "Sentimeter",
+      "base_unit": false,
+      "to_meter": 0.01
+    },
+    "dm": {
+      "name": "Desimeter",
+      "base_unit": false,
+      "to_meter": 0.1
+    },
+    "m": {
+      "name": "Meter",
+      "base_unit": true,
+      "to_meter": 1
+    },
+    "dam": {
+      "name": "Dekameter",
+      "base_unit": false,
+      "to_meter": 10
+    },
+    "hm": {
+      "name": "Hektometer",
+      "base_unit": false,
+      "to_meter": 100
+    },
+    "km": {
+      "name": "Kilometer",
+      "base_unit": false,
+      "to_meter": 1000
+    },
+    "mil": {
+      "name": "Mil",
+      "base_unit": false,
+      "to_meter": 0.0000254
+    },
+    "inci": {
+      "name": "Inci",
+      "base_unit": false,
+      "to_meter": 0.0254
+    },
+    "kaki": {
+      "name": "Kaki",
+      "base_unit": false,
+      "to_meter": 0.3048
+    },
+    "yard": {
+      "name": "Yard",
+      "base_unit": false,
+      "to_meter": 0.9144
+    },
+    "mil_laut": {
+      "name": "Mil Laut",
+      "base_unit": false,
+      "to_meter": 1852
+    }
+  },
+  "satuan_berat": {
+    "mg": {
+      "name": "Miligram",
+      "base_unit": false,
+      "to_gram": 0.001
+    },
+    "cg": {
+      "name": "Sentigram",
+      "base_unit": false,
+      "to_gram": 0.01
+    },
+    "dg": {
+      "name": "Desigram",
+      "base_unit": false,
+      "to_gram": 0.1
+    },
+    "g": {
+      "name": "Gram",
+      "base_unit": true,
+      "to_gram": 1
+    },
+    "dag": {
+      "name": "Dekagram",
+      "base_unit": false,
+      "to_gram": 10
+    },
+    "hg": {
+      "name": "Hektogram",
+      "base_unit": false,
+      "to_gram": 100
+    },
+    "kg": {
+      "name": "Kilogram",
+      "base_unit": false,
+      "to_gram": 1000
+    },
+    "ton": {
+      "name": "Ton",
+      "base_unit": false,
+      "to_gram": 1000000
+    },
+    "kwintal": {
+      "name": "Kwintal",
+      "base_unit": false,
+      "to_gram": 100000
+    },
+    "ons": {
+      "name": "Ons",
+      "base_unit": false,
+      "to_gram": 100
+    },
+    "pon": {
+      "name": "Pon",
+      "base_unit": false,
+      "to_gram": 500
+    },
+    "mud": {
+      "name": "Mud",
+      "base_unit": false,
+      "to_gram": 75
+    },
+    "sho": {
+      "name": "Sho'",
+      "base_unit": false,
+      "to_gram": 0.375
+    },
+    "liter": {
+      "name": "Liter",
+      "base_unit": false,
+      "to_gram": 1000
+    }
+  },
+  "satuan_volume": {
+    "mm3": {
+      "name": "Milimeter Kubik",
+      "base_unit": false,
+      "to_liter": 0.000001
+    },
+    "cm3": {
+      "name": "Sentimeter Kubik",
+      "base_unit": false,
+      "to_liter": 0.001
+    },
+    "cc": {
+      "name": "Sentimeter Kubik (cc)",
+      "base_unit": false,
+      "to_liter": 0.001
+    },
+    "dm3": {
+      "name": "Desimeter Kubik",
+      "base_unit": false,
+      "to_liter": 1
+    },
+    "m3": {
+      "name": "Meter Kubik",
+      "base_unit": true,
+      "to_liter": 1000
+    },
+    "ml": {
+      "name": "Mililiter",
+      "base_unit": false,
+      "to_liter": 0.001
+    },
+    "l": {
+      "name": "Liter",
+      "base_unit": false,
+      "to_liter": 1
+    },
+    "kl": {
+      "name": "Kiloliter",
+      "base_unit": false,
+      "to_liter": 1000
+    },
+    "galon": {
+      "name": "Galon",
+      "base_unit": false,
+      "to_liter": 3.78541
+    }
+  }
+}
